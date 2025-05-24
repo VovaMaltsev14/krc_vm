@@ -1,0 +1,203 @@
+@model Dictionary<ShopDomain.Model.Category, List<ShopDomain.Model.Category>>
+
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .category-card {
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .category-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        transition: opacity 0.3s ease;
+    }
+
+    .category-card:hover .category-image {
+        opacity: 0.5;
+        filter: drop-shadow(0 0 60px #00ff7b);
+    }
+
+    .subcategory-list {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: white;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+        overflow-y: auto;
+    }
+
+    .subcategory-list.show {
+        display: block;
+        opacity: 1;
+    }
+
+    /* FAB Styles */
+    .fab-container {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    .fab-main {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .fab-main:hover {
+        transform: rotate(90deg);
+    }
+
+    .fab-options {
+        display: none;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .fab-option {
+        background-color: white;
+        color: black;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        text-decoration: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transition: background-color 0.2s;
+    }
+
+    .fab-option:hover {
+        background-color: #f1f1f1;
+    }
+
+    .fab-options.show {
+        display: flex;
+    }
+</style>
+
+<h1 class="mb-4">Категорії</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var category in Model)
+    {
+        var cardId = $"card-{category.Key.Id}";
+        var subListId = $"sub-{category.Key.Id}";
+        <div class="col">
+            <div class="card category-card h-100 shadow-sm"
+                 id="@cardId"
+                 onmouseleave="hideSubcategory('@subListId')">
+
+                <img src="~/images/categories/@category.Key.CgImage"
+                     alt="@category.Key.CgName"
+                     class="category-image"
+                     onclick="toggleSubcategory('@subListId')" />
+
+                <div class="card-body">
+                    <h5 class="card-title">@category.Key.CgName</h5>
+                    <p class="card-text text-muted">@category.Key.CgDescription</p>
+                </div>
+
+                <div class="subcategory-list" id="@subListId">
+                    <h6 class="mb-3">Підкатегорії:</h6>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var subCategory in category.Value)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @subCategory.CgName
+                                <a asp-action="Details" asp-route-id="@subCategory.Id" class="btn btn-sm btn-outline-primary">До товарів</a>
+                            </li>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <div class="card-footer d-flex justify-content-between">
+                                    <a asp-action="Edit" asp-route-id="@category.Key.Id" class="btn btn-sm btn-primary">Редагувати</a>
+                                    <a asp-action="Delete" asp-route-id="@category.Key.Id" class="btn btn-sm btn-danger" onclick="return confirm('Ви впевнені, що хочете видалити цю категорію?')">Видалити</a>
+                                </div>
+                            }
+                        }
+                    </ul>
+                </div>
+                @if (User.IsInRole("admin"))
+                {
+                    <div class="card-footer d-flex justify-content-between">
+                        <a asp-action="Edit" asp-route-id="@category.Key.Id" class="btn btn-sm btn-primary">Редагувати</a>
+                        <a asp-action="Delete" asp-route-id="@category.Key.Id" class="btn btn-sm btn-danger" onclick="return confirm('Ви впевнені, що хочете видалити цю категорію?')">Видалити</a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@if (User.IsInRole("admin"))
+{
+    <!-- FAB -->
+    <div class="fab-container">
+        <div class="fab-options" id="fabOptions">
+            <a asp-action="Create" class="fab-option">➕ Додати категорію</a>
+            <a asp-action="Import" class="fab-option">📥 Імпорт з Excel</a>
+            <a asp-action="Export" class="fab-option">📤 Експорт у Excel</a>
+        </div>
+        <button class="fab-main" onclick="toggleFab()">+</button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function toggleSubcategory(id) {
+            // Закрити всі відкриті списки
+            document.querySelectorAll('.subcategory-list.show').forEach(el => {
+                el.classList.remove('show');
+            });
+
+            // Відкрити вибраний
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('show');
+            }
+        }
+
+        function hideSubcategory(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('show');
+            }
+        }
+
+        function toggleFab() {
+            const fab = document.getElementById("fabOptions");
+            fab.classList.toggle("show");
+        }
+
+        document.addEventListener('click', function (e) {
+            const fab = document.getElementById("fabOptions");
+            const btn = document.querySelector('.fab-main');
+            if (!fab.contains(e.target) && !btn.contains(e.target)) {
+                fab.classList.remove('show');
+            }
+        });
+    </script>
+}

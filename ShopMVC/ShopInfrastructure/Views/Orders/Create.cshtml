@@ -1,0 +1,64 @@
+@model ShopDomain.Model.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OdUser" class="control-label"></label>
+                <select asp-for="OdUser" class ="form-control" asp-items="ViewBag.OdUser"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OdTotal" class="control-label"></label>
+                <input asp-for="OdTotal" class="form-control" />
+                <span asp-validation-for="OdTotal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OdDiscount" class="control-label"></label>
+                <input asp-for="OdDiscount" class="form-control" />
+                <span asp-validation-for="OdDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OdPayment" class="control-label"></label>
+                <input asp-for="OdPayment" class="form-control" />
+                <span asp-validation-for="OdPayment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OdNotes" class="control-label"></label>
+                <input asp-for="OdNotes" class="form-control" />
+                <span asp-validation-for="OdNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReceiptId" class="control-label"></label>
+                <select asp-for="ReceiptId" class ="form-control" asp-items="ViewBag.ReceiptId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label"></label>
+                <select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShippingId" class="control-label"></label>
+                <select asp-for="ShippingId" class ="form-control" asp-items="ViewBag.ShippingId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

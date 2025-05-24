@@ -1,0 +1,63 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ShopInfrastructure.Controllers.OrdersController.OrderViewModel
+
+<h2>Замовлення #@Model.Id</h2>
+<p><strong>Загальна сума:</strong> @Model.OdTotal грн</p>
+<p><strong>Метод оплати:</strong> @(Model.OdPayment == "cash" ? "Готівка" : Model.OdPayment)</p>
+<p><strong>Нотатки:</strong> @Model.OdNotes</p>
+
+<h3>Продукти:</h3>
+<ul>
+    @foreach (var product in Model.Products)
+    {
+        <li>
+            <strong>@product.Name</strong> - @product.Price грн  
+            <br />
+            <em>@product.Description</em>
+        </li>
+    }
+</ul>
+
+@if (Model.Shipping != null)
+{
+    <h3>Доставка</h3>
+    <table class="table">
+        <tr>
+            <th>Адреса:</th>
+            <td>@Model.Shipping.Address</td>
+        </tr>
+        <tr>
+            <th>Компанія доставки:</th>
+            <td>@Model.Shipping.ShippingCompany</td>
+        </tr>
+    </table>
+}
+
+@if (Model.Receipt != null)
+{
+    <h3>Чек</h3>
+    <table class="table">
+        <tr>
+            <th>Дата створення:</th>
+            <td>@Model.Receipt.DateCreated</td>
+        </tr>
+        <tr>
+            <th>Кількість товарів:</th>
+            <td>@Model.Receipt.Quantity</td>
+        </tr>
+        <tr>
+            <th>Загальна сума:</th>
+            <td>@Model.Receipt.Total грн</td>
+        </tr>
+        <tr>
+            <th>Оплата:</th>
+            <td>@(Model.Receipt.Payment == "cash" ? "Готівка" : Model.Receipt.Payment)</td>
+        </tr>
+        <tr>
+            <th>Опис:</th>
+            <td>@Model.Receipt.About</td>
+        </tr>
+    </table>
+}
+
+<a asp-controller="Orders" asp-action="Index" class="btn btn-secondary">Повернутися до списку замовлень</a>

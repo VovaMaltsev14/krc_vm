@@ -1,0 +1,28 @@
+@model ShopDomain.Model.Category
+
+<h2>Додати категорію / підкатегорію</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="CgName" class="form-label">Назва категорії</label>
+        <input asp-for="CgName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CgDescription" class="form-label">Опис</label>
+        <textarea asp-for="CgDescription" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Головна категорія (необов’язково)</label>
+        <select name="parentCategoryId" class="form-select">
+            <option value="">-- Без головної категорії (Створити нову) --</option>
+            @foreach (var category in ViewBag.ParentCategories)
+            {
+                <option value="@category.Id">@category.CgName</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+</form>

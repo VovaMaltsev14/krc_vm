@@ -1,0 +1,33 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Products Above Category Average";
+}
+
+<h2>Products Above Category Average</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Category Average Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                        <tr>
+                            <td>@item.PdName</td>
+                            <td>@item.PdPrice.ToString("C")</td>
+                            <td>@item.CgName</td>
+                            <td>@item.AvgPrice.ToString("C")</td>
+                        </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

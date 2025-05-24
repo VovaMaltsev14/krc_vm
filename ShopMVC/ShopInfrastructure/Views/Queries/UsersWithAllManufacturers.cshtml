@@ -1,0 +1,38 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Users with All Manufacturers";
+}
+
+<h2>Users with All Manufacturers</h2>
+
+@if (Model.Any())
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Manufacturers Ordered From</th>
+                    <th>Total Manufacturers</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td>@item.ManufacturersOrderedFrom</td>
+                            <td>@item.TotalManufacturers</td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+}
+else
+{
+        <p>No users found who have ordered from all manufacturers.</p>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

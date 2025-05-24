@@ -1,0 +1,80 @@
+@model IEnumerable<ShopDomain.Model.Order>
+
+@{
+    ViewData["Title"] = "Замовлення";
+}
+
+<h1>Замовлення</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OdTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdDiscount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdPayment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdNotes)
+            </th>
+            @if (User.IsInRole("admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.OdUserNavigation)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Receipt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Shipping)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdDiscount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdNotes)
+            </td>
+            @if (User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.OdUserNavigation.PhoneNumber)
+                </td>
+            }
+            <td>
+                Чек #@Html.DisplayFor(modelItem => item.Receipt.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shipping.ShAdress)
+            </td>
+            <td>
+                @if (User.IsInRole("admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning">Edit</a> 
+                }
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a> 
+                @if (User.IsInRole("admin"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

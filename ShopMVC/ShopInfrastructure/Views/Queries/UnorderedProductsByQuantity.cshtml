@@ -1,0 +1,50 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Unordered Products by Quantity";
+}
+
+<h2>Unordered Products by Quantity</h2>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="maxQuantity">Maximum Quantity:</label>
+                <input type="number" class="form-control" id="maxQuantity" name="maxQuantity" required min="1">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Manufacturer</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                        <tr>
+                            <td>@item.PdName</td>
+                            <td>@item.PdQuantity</td>
+                            <td>@item.PdPrice.ToString("C")</td>
+                            <td>@item.MnName</td>
+                        </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

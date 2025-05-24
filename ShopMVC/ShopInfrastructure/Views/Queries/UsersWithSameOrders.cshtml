@@ -1,0 +1,40 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Users with Same Orders";
+}
+
+<h2>Users with Common Products</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User 1</th>
+                <th>User 2</th>
+                <th>Common Products</th>
+                <th>Number of Common Products</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User1</td>
+                    <td>@item.User2</td>
+                    <td>@item.CommonProducts</td>
+                    <td>@item.CommonProductCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No users found with common products.</p>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div>

@@ -1,0 +1,47 @@
+@model ShopDomain.Model.Manufacturer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Створити</h1>
+
+<h4>Виробник</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MnName" class="control-label"></label>
+                <input asp-for="MnName" class="form-control" />
+                <span asp-validation-for="MnName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MnContactInfo" class="control-label"></label>
+                <input asp-for="MnContactInfo" class="form-control" />
+                <span asp-validation-for="MnContactInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <div class="d-flex">
+                    <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+                        <option value="">-- Оберіть країну --</option>
+                    </select>
+                    <a asp-action="Create" asp-controller="Countries" class="btn btn-outline-success ms-2 ml-2">Додати</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success my-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-light">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

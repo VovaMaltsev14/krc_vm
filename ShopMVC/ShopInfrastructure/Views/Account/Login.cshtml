@@ -1,0 +1,70 @@
+@model ShopInfrastructure.ViewModel.LoginViewModel
+
+@{
+    ViewData["Title"] = "Вхід у Магазин";
+}
+
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 3rem auto;
+        background-color: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 0 30px rgba(0, 255, 123, 0.3);
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .form-control:focus {
+        border-color: #00c080;
+        box-shadow: 0 0 0 0.2rem rgba(0, 255, 123, 0.25);
+    }
+
+    .login-title {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .btn-login {
+        width: 100%;
+    }
+
+    .form-check-label {
+        margin-left: 0.25rem;
+    }
+</style>
+
+<div class="login-container">
+    <h2 class="login-title">Вхід у Магазин</h2>
+
+    <form method="post" asp-controller="Account" asp-action="Login"
+          asp-route-returnUrl="@Model.ReturnUrl">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="RememberMe" class="form-check-input" />
+            <label asp-for="RememberMe" class="form-check-label"></label>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-success btn-login">Увійти</button>
+        </div>
+    </form>
+</div>

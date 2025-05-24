@@ -1,0 +1,149 @@
+@model IEnumerable<ShopDomain.Model.Product>
+
+@{
+    ViewData["Title"] = "Продукти за категорією";
+    var categoryId = ViewBag.CategoryId;
+    var categoryName = ViewBag.CategoryName as string;
+}
+
+<h1 class="mb-4">Продукти за категорією @categoryName</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var product in Model)
+    {
+        <div class="col">
+            <div class="card category-card h-100 shadow-sm">
+                <img src="~/images/products/@product.PdImagePath"
+                     alt="@product.PdName"
+                     class="category-image" />
+
+                <div class="card-body">
+                    <h5 class="card-title">@product.PdName</h5>
+                    <p class="card-text text-muted">@product.PdAbout</p>
+                    <p><strong>Ціна:</strong> @product.PdPrice грн</p>
+                    <p><strong>Розмірність:</strong> @product.PdMeasurements</p>
+                    <p><strong>Кількість:</strong> @product.PdQuantity</p>
+                    @if (product.PdDiscount != "0" && product.PdDiscount != null)
+                    {
+                        <p class="text-danger"><strong>Знижка:</strong> @product.PdDiscount</p>
+                    }
+                    <p><strong>Виробник:</strong> @product.Manufacturer?.MnName</p>
+                </div>
+
+                <div class="card-footer d-flex justify-content-between">
+                    <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-info">Деталі</a>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-outline-warning me-1">Редагувати</a>
+                            <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Ви впевнені, що хочете видалити цей товар?')">Видалити</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (User.IsInRole("admin"))
+{
+    <!-- FAB -->
+    <div class="fab-container">
+        <div class="fab-options" id="fabOptions">
+            <a asp-action="Create" asp-route-categoryId="@categoryId" class="fab-option">➕ Додати продукт</a>
+        </div>
+        <button class="fab-main" onclick="toggleFab()">+</button>
+    </div>
+}
+
+<style>
+    .category-card {
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .category-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        transition: opacity 0.3s ease;
+    }
+
+    .category-card:hover .category-image {
+        opacity: 0.6;
+        filter: drop-shadow(0 0 60px #00ff7b);
+    }
+
+    .fab-container {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    .fab-main {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .fab-main:hover {
+        transform: rotate(90deg);
+    }
+
+    .fab-options {
+        display: none;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .fab-option {
+        background-color: white;
+        color: black;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        text-decoration: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transition: background-color 0.2s;
+    }
+
+    .fab-option:hover {
+        background-color: #f1f1f1;
+    }
+
+    .fab-options.show {
+        display: flex;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function toggleFab() {
+            const fab = document.getElementById("fabOptions");
+            fab.classList.toggle("show");
+        }
+
+        document.addEventListener('click', function (e) {
+            const fab = document.getElementById("fabOptions");
+            const btn = document.querySelector('.fab-main');
+            if (!fab.contains(e.target) && !btn.contains(e.target)) {
+                fab.classList.remove('show');
+            }
+        });
+    </script>
+}

@@ -1,0 +1,47 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Виробники з однаковими місяцями народження замовників";
+}
+
+<div class="container">
+    <h2>Виробники з однаковими місяцями народження замовників</h2>
+    <p class="lead">Знаходить виробників, у яких співпадають множини місяців народження замовників</p>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Виробник 1</th>
+                    <th>Виробник 2</th>
+                    <th>Спільні місяці народження</th>
+                    <th>Кількість місяців</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                        foreach (var item in Model)
+                        {
+                                <tr>
+                                    <td>@item.Manufacturer1</td>
+                                    <td>@item.Manufacturer2</td>
+                                    <td>@item.CommonBirthMonths</td>
+                                    <td>@item.MonthCount</td>
+                                </tr>
+                        }
+                }
+                else
+                {
+                        <tr>
+                            <td colspan="4" class="text-center">Не знайдено виробників з однаковими місяцями народження замовників</td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-primary">Назад до меню</a>
+    </div>
+</div> 

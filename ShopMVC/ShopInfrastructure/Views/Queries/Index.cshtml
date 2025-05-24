@@ -1,0 +1,89 @@
+@{
+    ViewData["Title"] = "Queries Menu";
+}
+
+<h2>Queries Menu</h2>
+
+<div class="mb-4">
+    <h3 class="text-primary">Simple Parameterized Queries (Multiple Tables)</h3>
+    <p class="text-muted">At least 5 queries that use multiple tables and take user input parameters</p>
+    <div class="list-group">
+        <a asp-action="UnorderedProductsByQuantity" class="list-group-item list-group-item-action">
+            <h5>Unordered Products by Quantity</h5>
+            <p class="mb-1">Parameter: MaxQuantity - Shows products that haven't been ordered and have quantity less
+                than specified</p>
+        </a>
+
+        <a asp-action="ManufacturersByUserOrders" class="list-group-item list-group-item-action">
+            <h5>Manufacturers by User Orders</h5>
+            <p class="mb-1">Parameter: UserId - Shows manufacturers that supply products ordered by a specific user</p>
+        </a>
+
+        <a asp-action="ProductsInSameCategories" class="list-group-item list-group-item-action">
+            <h5>Products in Same Categories</h5>
+            <p class="mb-1">Parameter: ProductId - Shows products that belong to the same categories as a specified
+                product</p>
+        </a>
+
+        <a asp-action="UsersWithDifferentOrders" class="list-group-item list-group-item-action">
+            <h5>Users with Different Orders</h5>
+            <p class="mb-1">Parameter: UserId - Shows users who haven't ordered any products that a specific user has
+                ordered</p>
+        </a>
+
+        <a asp-action="ManufacturersWithAllCategoryProducts" class="list-group-item list-group-item-action">
+            <h5>Manufacturers with All Category Products</h5>
+            <p class="mb-1">Parameter: CategoryId - Shows manufacturers that supply all products in a specific category
+            </p>
+        </a>
+
+        <a asp-action="ProductsWithAllSameCategories" class="list-group-item list-group-item-action">
+            <h5>Products with All Same Categories</h5>
+            <p class="mb-1">Parameter: ProductId - Shows products that share ALL categories with a specified product</p>
+        </a>
+
+        <a asp-action="ProductsOrderedByAllUsersInCountry" class="list-group-item list-group-item-action">
+            <h5>Products Ordered by All Users in Country</h5>
+            <p class="mb-1">Parameter: CountryId - Shows products ordered by all users in a specific country</p>
+        </a>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h3 class="text-primary">Queries with Multiple Comparisons</h3>
+    <p class="text-muted">At least 3 queries that use multiple comparisons (ALL, ANY, EXISTS, etc.)</p>
+    <div class="list-group">
+        <a asp-action="ProductsAboveCategoryAverage" class="list-group-item list-group-item-action">
+            <h5>Products Above Category Average</h5>
+            <p class="mb-1">Uses comparison with category averages (ALL products above average)</p>
+        </a>
+
+        <a asp-action="ManufacturersWithAllCategories" class="list-group-item list-group-item-action">
+            <h5>Manufacturers with All Categories</h5>
+            <p class="mb-1">Uses ALL comparison to find manufacturers supplying products in every category</p>
+        </a>
+
+        <a asp-action="UsersWithAllManufacturers" class="list-group-item list-group-item-action">
+            <h5>Users with All Manufacturers</h5>
+            <p class="mb-1">Uses ALL comparison to find users who ordered from every manufacturer</p>
+        </a>
+
+        <a asp-action="UsersWithSameOrders" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Користувачі з однаковими замовленнями</h5>
+            </div>
+            <p class="mb-1">Використовує множинні порівняння для пошуку користувачів, які замовляли однакові товари</p>
+        </a>
+
+        <a asp-action="ManufacturersWithSameCustomerBirthMonths" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Виробники з однаковими місяцями народження замовників</h5>
+            </div>
+            <p class="mb-1">Знаходить виробників, у яких співпадають множини місяців народження замовників</p>
+        </a>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Main Menu</a>
+</div>

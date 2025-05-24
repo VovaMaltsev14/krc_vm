@@ -1,0 +1,122 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model ShopDomain.Model.Cart?
+
+@{
+    ViewData["Title"] = "Продукти у кошику";
+}
+
+<h1>Продукти у кошику @ViewBag.CartId</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрити"></button>
+    </div>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва продукту</th>
+            <th>Кількість</th>
+            <th>Ціна</th>
+            <th>Знижка</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductCarts)
+        {
+            <tr>
+                <td>@item.Product.PdName</td>
+                <td>@item.PcQuantity</td>
+                <td>@item.PcPrice</td>
+                <td>@item.Product.PdDiscount</td>
+                <td>
+                    <form asp-action="RemoveProduct" asp-controller="Carts" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button type="submit" class="btn btn-outline-danger">Видалити</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Checkout" asp-controller="Orders" method="post">
+    <div class="form-group">
+        <label for="paymentMethod">Метод оплати:</label>
+        <select id="paymentMethod" name="paymentMethod" class="form-control" required onchange="toggleCardField()">
+            <option value="cash">Готівка</option>
+            <option value="card">Картка</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="cardNumberField" style="display: none;">
+        <label for="cardNumber">Номер картки:</label>
+        <input type="text" id="cardNumber" name="cardNumber" class="form-control" pattern="\d{16}" placeholder="Введіть 16-значний номер картки">
+    </div>
+
+    <div class="form-group">
+        <label for="deliveryMethod">Спосіб доставки:</label>
+        <select id="deliveryMethod" name="shippingMethod" class="form-control" required onchange="toggleShippingFields()">
+            <option value="pickup">Самовивіз</option>
+            <option value="delivery">Доставка</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="shippingCompanyField" style="display: none;">
+        <label for="shippingCompany">Компанія доставки:</label>
+        <select id="shippingCompany" name="shippingCompanyId" class="form-control">
+            @foreach (var company in ViewBag.ShippingCompanies)
+            {
+                <option value="@company.Id">@company.ScName</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group" id="addressField" style="display: none;">
+        <label for="address">Адреса доставки:</label>
+        <input type="text" id="address" name="address" class="form-control" placeholder="Введіть адресу">
+    </div>
+    
+    <div class="form-group">
+        <label for="orderNotes">Нотатки:</label>
+        <textarea id="orderNotes" name="orderNotes" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success my-2">Оформити замовлення</button>
+</form>
+
+<script>
+    function toggleCardField() {
+        var paymentMethod = document.getElementById("paymentMethod").value;
+        var cardField = document.getElementById("cardNumberField");
+        cardField.style.display = paymentMethod === "card" ? "block" : "none";
+    }
+
+    function toggleShippingFields() {
+        var deliveryMethod = document.getElementById("deliveryMethod").value;
+        var shippingCompanyField = document.getElementById("shippingCompanyField");
+        var addressField = document.getElementById("addressField");
+        var addressInput = document.getElementById("address");
+
+        if (deliveryMethod === "delivery") {
+            shippingCompanyField.style.display = "block";
+            addressField.style.display = "block";
+            addressInput.required = true;
+            addressInput.value = "";
+        } else {
+            shippingCompanyField.style.display = "none";
+            addressField.style.display = "none";
+            addressInput.required = false;
+            addressInput.value = "Самовивіз";
+        }
+    }
+</script>
+
+<a asp-action="Index" asp-controller="Orders" class="btn btn-info">Переглянути замовлення</a>
+

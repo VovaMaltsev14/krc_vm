@@ -1,0 +1,142 @@
+@model ShopDomain.Model.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Деталі</h1>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-dismissible alert-danger mt-3">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Помилка!</strong> 
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<div>
+    <h4>Продукт</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PdName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PdName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PdPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PdPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PdMeasurements)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PdMeasurements)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PdQuantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PdQuantity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PdDiscount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PdDiscount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PdAbout)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PdAbout)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Manufacturer.MnName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Manufacturer.MnName)
+        </dd>
+    </dl>
+</div>
+
+<img src="~/images/products/@Model.PdImagePath"
+     alt="@Model.PdName"
+     class="category-image" />
+
+<div class="mt-3">
+    <form asp-controller="Carts" asp-action="AddToCart" method="post">
+        <input type="hidden" name="productId" value="@Model.Id" />
+
+        <label for="quantity">Кількість:</label>
+        <input type="number" name="quantity" id="quantity" value="1" min="1" />
+
+        <button type="submit" class="btn btn-success">Додати в кошик</button>
+    </form>
+</div>
+
+<div class="mt-3">
+    @if (User.IsInRole("admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-light">Back to List</a>
+</div>
+
+@if (User.IsInRole("admin"))
+{
+    <div id="priceHistoryChart" style="width: 100%; height: 500px;"></div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            const productId = @Model.Id; // ID продукту із моделі
+
+            fetch(`/api/charts/productPriceHistory/${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn('date', 'Дата замовлення');  
+                    dataTable.addColumn('number', 'Ціна за одиницю'); 
+                    dataTable.addColumn({ type: 'string', role: 'tooltip' }); // Tooltip
+
+                    data.forEach(item => {
+                        const orderDate = new Date(item.orderDate);
+                        const tooltipText = `Дата: ${orderDate.toLocaleDateString()} \nЦіна: ${item.pricePerUnit} ₴\nКількість: ${item.quantitySold} шт`;
+
+                        dataTable.addRow([orderDate, item.pricePerUnit, tooltipText]);
+                    });
+
+                    const options = {
+                        title: 'Історія цін продукту',
+                        curveType: 'function',
+                        legend: { position: 'bottom' },
+                        hAxis: { title: 'Дата замовлення', format: 'dd.MM.yyyy' },
+                        vAxis: { title: 'Ціна за одиницю' },
+                        tooltip: { isHtml: false }, // Використовуємо текстовий tooltip
+                        width: 800,
+                        height: 500
+                    };
+
+                    const chart = new google.visualization.LineChart(document.getElementById('priceHistoryChart'));
+                    chart.draw(dataTable, options);
+                });
+        }
+
+    </script>
+}

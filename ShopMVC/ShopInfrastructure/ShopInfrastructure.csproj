@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ClosedXML" Version="0.105.0-rc" />
+      <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.3" />
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ShopDomain\ShopDomain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\ProductCategories\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ProductCategories\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ProductCategories\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ProductCategories\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\ProductCategories\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Products\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Products\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Products\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Products\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Products\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap_minty.css" />
+      <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap_minty.min.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Account\" />
+      <Folder Include="Views\Roles\" />
+      <Folder Include="wwwroot\images\categories\" />
+    </ItemGroup>
+
+</Project>

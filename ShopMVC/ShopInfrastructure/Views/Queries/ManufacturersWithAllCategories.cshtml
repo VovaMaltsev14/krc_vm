@@ -1,0 +1,40 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Manufacturers with All Categories";
+}
+
+<h2>Manufacturers with All Categories</h2>
+
+@if (Model.Any())
+{
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Manufacturer Name</th>
+                        <th>Country</th>
+                        <th>Categories Supplied</th>
+                        <th>Total Categories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                                <tr>
+                                    <td>@item.ManufacturerName</td>
+                                    <td>@item.CountryName</td>
+                                    <td>@item.CategoriesSupplied</td>
+                                    <td>@item.TotalCategories</td>
+                                </tr>
+                    }
+                </tbody>
+            </table>
+}
+else
+{
+            <p>No manufacturers found that supply products in all categories.</p>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

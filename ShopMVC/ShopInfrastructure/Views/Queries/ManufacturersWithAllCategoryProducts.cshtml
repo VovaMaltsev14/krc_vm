@@ -1,0 +1,48 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Manufacturers with All Category Products";
+}
+
+<h2>Manufacturers with All Category Products</h2>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="categoryId">Category ID:</label>
+                <input type="number" class="form-control" id="categoryId" name="categoryId" required min="1">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Manufacturer Name</th>
+            <th>Contact Info</th>
+            <th>Product Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                        <tr>
+                            <td>@item.MnName</td>
+                            <td>@item.MnCountry</td>
+                            <td>@item.ProductCount</td>
+                        </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

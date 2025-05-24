@@ -1,0 +1,78 @@
+@model ShopInfrastructure.ViewModel.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Реєстрація";
+}
+
+<style>
+    .register-container {
+        max-width: 450px;
+        margin: 3rem auto;
+        background-color: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 0 30px rgba(0, 255, 123, 0.3);
+    }
+
+    .register-title {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .form-control:focus {
+        border-color: #00c080;
+        box-shadow: 0 0 0 0.2rem rgba(0, 255, 123, 0.25);
+    }
+
+    .btn-register {
+        width: 100%;
+    }
+</style>
+
+<div class="register-container">
+    <h2 class="register-title">Реєстрація нового користувача</h2>
+
+    <form method="post" asp-controller="Account" asp-action="Register">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Birthdate" class="form-label"></label>
+            <input asp-for="Birthdate" class="form-control" type="date" />
+            <span asp-validation-for="Birthdate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PasswordConfirm" class="form-label"></label>
+            <input asp-for="PasswordConfirm" class="form-control" type="password" />
+            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-success btn-register">Зареєструватись</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,46 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Products in Same Categories";
+}
+
+<h2>Products in Same Categories</h2>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="productId">Product ID:</label>
+                <input type="number" class="form-control" id="productId" name="productId" required min="1">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary form-control">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Categories</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                    <tr>
+                        <td>@item.PdName</td>
+                        <td>@string.Join(", ", item.Categories)</td>
+                    </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

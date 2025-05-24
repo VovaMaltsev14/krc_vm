@@ -1,0 +1,47 @@
+@model IEnumerable<ShopDomain.Model.Manufacturer>
+
+@{
+    ViewData["Title"] = "Manufacturers";
+}
+
+<h1>Виробники</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Створити нового</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MnName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MnContactInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country.CoName)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MnName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MnContactInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.CoName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

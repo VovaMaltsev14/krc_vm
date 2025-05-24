@@ -1,0 +1,54 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Products Ordered by All Users in Country";
+}
+
+<h2>Products Ordered by All Users in Country</h2>
+
+<form method="get" class="mb-4">
+    <div class="form-group">
+        <label for="countryId">Select Country:</label>
+        <select name="countryId" id="countryId" class="form-control" required>
+            <option value="">-- Select Country --</option>
+            @foreach (var country in ViewBag.Countries)
+            {
+                    <option value="@country.Id">@country.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (Model.Any())
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Manufacturer</th>
+                    <th>Users Who Ordered</th>
+                    <th>Total Users in Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.ManufacturerName</td>
+                            <td>@item.UserCount</td>
+                            <td>@item.TotalUsersInCountry</td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+}
+else
+{
+        <p>No products found that were ordered by all users in the selected country.</p>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to Menu</a>
+</div> 

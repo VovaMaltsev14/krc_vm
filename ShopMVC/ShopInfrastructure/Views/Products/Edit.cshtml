@@ -1,0 +1,68 @@
+@model ShopDomain.Model.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Змінити</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PdName" class="control-label"></label>
+                <input asp-for="PdName" class="form-control" />
+                <span asp-validation-for="PdName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdPrice" class="control-label"></label>
+                <input asp-for="PdPrice" class="form-control" />
+                <span asp-validation-for="PdPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdMeasurements" class="control-label"></label>
+                <input asp-for="PdMeasurements" class="form-control" />
+                <span asp-validation-for="PdMeasurements" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdQuantity" class="control-label"></label>
+                <input asp-for="PdQuantity" class="form-control" />
+                <span asp-validation-for="PdQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdDiscount" class="control-label"></label>
+                <input asp-for="PdDiscount" class="form-control" />
+                <span asp-validation-for="PdDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdAbout" class="control-label"></label>
+                <input asp-for="PdAbout" class="form-control" />
+                <span asp-validation-for="PdAbout" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturerId" class="control-label"></label>
+                <div class="d-flex">
+                    <select asp-for="ManufacturerId" class="form-control me-2" asp-items="ViewBag.ManufacturerId">
+                        <option value="">-- Оберіть виробника --</option>
+                    </select>
+                    <a asp-action="Create" asp-controller="Manufacturers" class="btn btn-outline-success ml-2">Додати</a>
+                </div>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group my-2 mb-2">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-light">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
